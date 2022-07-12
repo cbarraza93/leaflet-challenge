@@ -14,16 +14,16 @@ d3.json(queryUrl).then(function (data) {
 });
 
 function markerSize(mag) {
-  return mag * 20000;
+  return mag * 17000;
 }
 
 function markerColor(depth) {
   return depth > 90  ? 'red' :
-        depth > 70  ? 'darkOrange' :
-        depth > 50  ? 'orange' :
-        depth > 30  ? 'yellow' :
-        depth > 10  ? 'yellowGreen' :
-                  'green';
+        depth > 70  ? 'peru' :
+        depth > 50  ? 'darkOrange' :
+        depth > 30  ? 'gold' :
+        depth > 10  ? 'greenYellow' :
+                  'chartreuse';
 }
 
 function createFeatures(earthquakeData) {
@@ -37,8 +37,10 @@ function createFeatures(earthquakeData) {
       return new L.circle(latlng,
         {radius: markerSize(feature.properties.mag),
         fillColor: markerColor(feature.geometry.coordinates[2]),
-        fillOpacity: 20,
+        fillOpacity: 0.9,
         stroke: true,
+        color: 'black',
+        weight: 0.5
     })
   }
   });
@@ -78,11 +80,58 @@ function createMap(earthquakes) {
     layers: [street, earthquakes]
   });
 
-  // Create a layer control.
+  // Create a layer/legend control.
   // Pass it our baseMaps and overlayMaps.
   // Add the layer control to the map.
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
   }).addTo(myMap);
+
+  var info = L.control({
+    position: "bottomright"
+});
+
+info.onAdd = function(){
+    var div = L.DomUtil.create("div","legend");
+    return div;
+}
+
+info.addTo(myMap);
+
+document.querySelector(".legend").innerHTML=displayLegend();
+
+}
+
+  function displayLegend(){
+    var legendInfo = [{
+        limit: "Depth: -10-10",
+        color: "chartreuse"
+    },{
+        limit: "Depth: 10-30",
+        color: "greenYellow"
+    },{
+        limit:"Depth: 30-50",
+        color:"gold"
+    },{
+        limit:"Depth: 50-70",
+        color:"DarkOrange"
+    },{
+        limit:"Depth: 70-90",
+        color:"Peru"
+    },{
+        limit:"Depth: 90+",
+        color:"red"
+    }];
+
+    var header = "<h3>Magnitude</h3><hr>";
+
+    var strng = "";
+   
+    for (i = 0; i < legendInfo.length; i++){
+        strng += "<p style = \"background-color: "+legendInfo[i].color+"\">"+legendInfo[i].limit+"</p> ";
+    }
+    
+    return header+strng;
+
 
 }
