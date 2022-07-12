@@ -7,25 +7,40 @@ d3.json(queryUrl).then(function (data) {
   consoleLog(data.features);
 });
 
-
 // Perform a GET request to the query URL/
 d3.json(queryUrl).then(function (data) {
   // Once we get a response, send the data.features object to the createFeatures function.
   createFeatures(data.features);
 });
 
+function markerSize(mag) {
+  return mag * 20000;
+}
+
+function markerColor(depth) {
+  return depth > 90  ? 'red' :
+        depth > 70  ? 'darkOrange' :
+        depth > 50  ? 'orange' :
+        depth > 30  ? 'yellow' :
+        depth > 10  ? 'yellowGreen' :
+                  'green';
+}
+
 function createFeatures(earthquakeData) {
-
-  // Define a function that we want to run once for each feature in the features array.
-  // Give each feature a popup that describes the place and time of the earthquake.
-  function onEachFeature(feature, layer) {
-    layer.bindPopup(`<h3>Location:${feature.properties.place}</h3><hr><p>Time:${new Date(feature.properties.time)}</p><hr><p>Magnitude:${(feature.properties.mag)}</p><hr><p>Depth:${(feature.geometry.coordinates[2])}</p>`);
-  }
-
-  // Create a GeoJSON layer that contains the features array on the earthquakeData object.
-  // Run the onEachFeature function once for each piece of data in the array.
+  
   var earthquakes = L.geoJSON(earthquakeData, {
-    onEachFeature: onEachFeature
+  // Define a function we want to run once for each feature in the features array
+  // Give each feature a popup describing the place and time of the earthquake
+  onEachFeature : function (feature, layer) {
+    layer.bindPopup(`<h3>Location:${feature.properties.place}</h3><hr><p>Time:${new Date(feature.properties.time)}</p><hr><p>Magnitude:${(feature.properties.mag)}</p><hr><p>Depth:${(feature.geometry.coordinates[2])}</p>`)
+    },     pointToLayer: function (feature, latlng) {
+      return new L.circle(latlng,
+        {radius: markerSize(feature.properties.mag),
+        fillColor: markerColor(feature.geometry.coordinates[2]),
+        fillOpacity: 20,
+        stroke: true,
+    })
+  }
   });
 
   // Send our earthquakes layer to the createMap function/
