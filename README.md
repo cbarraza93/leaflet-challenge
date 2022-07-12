@@ -1,6 +1,6 @@
 # Leaflet Homework: Visualizing Data with Leaflet
 
-See results here: [Map of Earthquakes Reported This Week](https://cbarraza93.github.io/leaflet-challenge/)
+### See final results here: [Map of Earthquakes Reported This Week](https://cbarraza93.github.io/leaflet-challenge/)
 
 ## Background
 
