@@ -19,9 +19,9 @@ function markerSize(mag) {
 
 function markerColor(depth) {
   return depth > 90  ? 'red' :
-        depth > 70  ? 'peru' :
-        depth > 50  ? 'darkOrange' :
-        depth > 30  ? 'gold' :
+        depth > 70  ? 'brown' :
+        depth > 50  ? 'orange' :
+        depth > 30  ? 'yellow' :
         depth > 10  ? 'greenYellow' :
                   'chartreuse';
 }
@@ -111,13 +111,13 @@ document.querySelector(".legend").innerHTML=displayLegend();
         color: "greenYellow"
     },{
         limit:"Depth: 30-50",
-        color:"gold"
+        color:"yellow"
     },{
         limit:"Depth: 50-70",
-        color:"DarkOrange"
+        color:"orange"
     },{
         limit:"Depth: 70-90",
-        color:"Peru"
+        color:"brown"
     },{
         limit:"Depth: 90+",
         color:"red"
