@@ -1,5 +1,7 @@
 # Leaflet Homework: Visualizing Data with Leaflet
 
+See results here: [Map of Earthquakes Reported This Week](https://cbarraza93.github.io/leaflet-challenge/)
+
 ## Background
 
 ![1-Logo](Images/1-Logo.png)
