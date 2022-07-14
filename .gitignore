@@ -1,6 +1,7 @@
 config.js
 API_KEY
 config
+var config
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

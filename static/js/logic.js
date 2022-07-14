@@ -146,7 +146,6 @@ document.querySelector(".legend").innerHTML=displayLegend();
         strng += "<p style = \"background-color: "+legendInfo[i].color+"\">"+legendInfo[i].limit+"</p>";
     }
     
-    
     return header+strng+"<h4>Note: Marker Size is</br>dependent on Magnitude</h4>";
 
 
