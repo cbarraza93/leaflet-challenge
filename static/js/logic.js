@@ -37,7 +37,7 @@ function createFeatures(earthquakeData) {
       return new L.circle(latlng,
         {radius: markerSize(feature.properties.mag),
         fillColor: markerColor(feature.geometry.coordinates[2]),
-        fillOpacity: 0.9,
+        fillOpacity: 0.7,
         stroke: true,
         color: 'black',
         weight: 0.5
@@ -63,7 +63,7 @@ function createMap(earthquakes) {
   // Create a baseMaps object.
   var baseMaps = {
     "Street Map": street,
-    "Topographic Map": topo
+    "Topographic Map": topo,
   };
 
   // Create an overlay object to hold our overlay.
@@ -99,9 +99,7 @@ info.onAdd = function(){
 info.addTo(myMap);
 
 document.querySelector(".legend").innerHTML=displayLegend();
-
 }
-
   function displayLegend(){
     var legendInfo = [{
         limit: "Depth: -10-10",
