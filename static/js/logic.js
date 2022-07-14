@@ -1,16 +1,29 @@
 // Store our API endpoint as queryUrl.
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+var queryUrl2 = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json";
 
 // Perform a GET request to the query URL/
 d3.json(queryUrl).then(function (data) {
   // Once we get a response, send the data.features object to the createFeatures function.
-  consoleLog(data.features);
+  console.log(data.features);
+});
+
+// Perform a GET request to the query URL for tectonic plates/
+d3.json(queryUrl2).then(function (data2) {
+  // Once we get a response, send the data.features object to the createFeatures function.
+  console.log(data2.features);
 });
 
 // Perform a GET request to the query URL/
 d3.json(queryUrl).then(function (data) {
   // Once we get a response, send the data.features object to the createFeatures function.
   createFeatures(data.features);
+});
+
+// Perform a GET request to the query URL/
+d3.json(queryUrl2).then(function (data2) {
+  // Once we get a response, send the data.features object to the createFeatures function.
+  createFeatures(data2.features);
 });
 
 function markerSize(mag) {
@@ -25,7 +38,6 @@ function markerColor(depth) {
         depth > 10  ? 'greenYellow' :
                   'chartreuse';
 }
-
 
 function createFeatures(earthquakeData) {
   
@@ -93,8 +105,8 @@ function createMap(earthquakes) {
     center: [
       37.09, -95.71
     ],
-    zoom: 5,
-    layers: [topo, earthquakes]
+    zoom: 3.5,
+    layers: [satellite, earthquakes]
   });
 
   // Create a layer/legend control.
@@ -138,7 +150,7 @@ document.querySelector(".legend").innerHTML=displayLegend();
         color:"red"
     }];
 
-    var header = "<h3>Depth</h3><hr>";
+    var header = "<h3>Earthquake Depth</h3><hr>";
 
     var strng = "";
    
@@ -150,3 +162,5 @@ document.querySelector(".legend").innerHTML=displayLegend();
 
 
 }
+
+
