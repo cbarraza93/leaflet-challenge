@@ -8,3 +8,18 @@ body,
 html {
   height: 100%;
 }
+
+#header, 
+p, 
+h4, 
+h3, 
+h1, 
+h2 {text-align: center;
+}
+
+.legend {
+  padding: 6px 6px;
+  font-weight: bold;
+  background: rgb(230, 229, 229);
+}
+

@@ -14,7 +14,7 @@ d3.json(queryUrl).then(function (data) {
 });
 
 function markerSize(mag) {
-  return mag * 17000;
+  return mag*5;
 }
 
 function markerColor(depth) {
@@ -26,6 +26,7 @@ function markerColor(depth) {
                   'chartreuse';
 }
 
+
 function createFeatures(earthquakeData) {
   
   var earthquakes = L.geoJSON(earthquakeData, {
@@ -34,7 +35,7 @@ function createFeatures(earthquakeData) {
   onEachFeature : function (feature, layer) {
     layer.bindPopup(`<h3>Location:${feature.properties.place}</h3><hr><p>Time:${new Date(feature.properties.time)}</p><hr><p>Magnitude:${(feature.properties.mag)}</p><hr><p>Depth:${(feature.geometry.coordinates[2])}</p>`)
     },     pointToLayer: function (feature, latlng) {
-      return new L.circle(latlng,
+      return new L.circleMarker(latlng,
         {radius: markerSize(feature.properties.mag),
         fillColor: markerColor(feature.geometry.coordinates[2]),
         fillOpacity: 0.7,
@@ -60,10 +61,26 @@ function createMap(earthquakes) {
     attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
   });
 
+  var satellite = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}", {
+    attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+    maxZoom: 17,
+    id: "mapbox.satellite",
+    accessToken: config.API_KEY
+  });
+  
+  var grayscale = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+    attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+    maxZoom: 17,
+    id: "mapbox.light",
+    accessToken: config.API_KEY
+  });
+
   // Create a baseMaps object.
   var baseMaps = {
     "Street Map": street,
     "Topographic Map": topo,
+    "Satellite": satellite,
+    "Grayscale": grayscale
   };
 
   // Create an overlay object to hold our overlay.
@@ -77,7 +94,7 @@ function createMap(earthquakes) {
       37.09, -95.71
     ],
     zoom: 5,
-    layers: [street, earthquakes]
+    layers: [topo, earthquakes]
   });
 
   // Create a layer/legend control.
@@ -121,15 +138,16 @@ document.querySelector(".legend").innerHTML=displayLegend();
         color:"red"
     }];
 
-    var header = "<h3>Magnitude</h3><hr>";
+    var header = "<h3>Depth</h3><hr>";
 
     var strng = "";
    
     for (i = 0; i < legendInfo.length; i++){
-        strng += "<p style = \"background-color: "+legendInfo[i].color+"\">"+legendInfo[i].limit+"</p> ";
+        strng += "<p style = \"background-color: "+legendInfo[i].color+"\">"+legendInfo[i].limit+"</p>";
     }
     
-    return header+strng;
+    
+    return header+strng+"<h4>Note: Marker Size is</br>dependent on Magnitude</h4>";
 
 
 }
