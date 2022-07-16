@@ -56,7 +56,6 @@ function createFeatures(earthquakeData) {
   createMap(earthquakes);
 }
 
-
 d3.json(queryUrl2).then(function(response){
   plates = L.geoJSON(response,{  
       style: function(feature){
