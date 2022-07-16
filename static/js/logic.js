@@ -21,10 +21,10 @@ d3.json(queryUrl).then(function (data) {
 });
 
 // Perform a GET request to the query URL/
-d3.json(queryUrl2).then(function (data2) {
-  // Once we get a response, send the data.features object to the createFeatures function.
-  createFeatures(data2.features);
-});
+//d3.json(queryUrl2).then(function (data2) {
+//  // Once we get a response, send the data.features object to the createFeatures function.
+//  createFeatures(data2.features);
+//});
 
 function markerSize(mag) {
   return mag*5;
