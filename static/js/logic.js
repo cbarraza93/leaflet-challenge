@@ -20,12 +20,6 @@ d3.json(queryUrl).then(function (data) {
   createFeatures(data.features);
 });
 
-// Perform a GET request to the query URL/
-//d3.json(queryUrl2).then(function (data2) {
-//  // Once we get a response, send the data.features object to the createFeatures function.
-//  createFeatures(data2.features);
-//});
-
 function markerSize(mag) {
   return mag*5;
 }
@@ -62,6 +56,22 @@ function createFeatures(earthquakeData) {
   createMap(earthquakes);
 }
 
+
+d3.json(queryUrl2).then(function(response){
+  plates = L.geoJSON(response,{  
+      style: function(feature){
+          return {
+              color:"yellow",
+              fillColor: "white",
+              fillOpacity:0
+          }
+      },      
+      onEachFeature: function(feature,layer){
+          layer.bindPopup("Plate Name: "+feature.properties.PlateName);
+      }
+  })
+});
+
 function createMap(earthquakes) {
 
   // Create the base layers.
@@ -89,15 +99,16 @@ function createMap(earthquakes) {
 
   // Create a baseMaps object.
   var baseMaps = {
-    "Street Map": street,
-    "Topographic Map": topo,
     "Satellite": satellite,
+    "Topographic Map": topo,
+    "Street Map": street,
     "Grayscale": grayscale
   };
 
   // Create an overlay object to hold our overlay.
   var overlayMaps = {
-    Earthquakes: earthquakes
+    Earthquakes: earthquakes,
+    Plates: plates
   };
 
   // Create our map, giving it the streetmap and earthquakes layers to display on load.
@@ -106,7 +117,7 @@ function createMap(earthquakes) {
       37.09, -95.71
     ],
     zoom: 3.5,
-    layers: [satellite, earthquakes]
+    layers: [satellite, plates, earthquakes]
   });
 
   // Create a layer/legend control.
