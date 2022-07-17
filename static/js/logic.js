@@ -65,9 +65,6 @@ d3.json(queryUrl2).then(function(response){
               fillOpacity:0
           }
       },      
-      onEachFeature: function(feature,layer){
-          layer.bindPopup("Plate Name: "+feature.properties.PlateName);
-      }
   })
 });
 
