@@ -33,6 +33,21 @@ function markerColor(depth) {
                   'chartreuse';
 }
 
+d3.json(queryUrl2).then(function(response){
+  plates = L.geoJSON(response,{  
+      style: function(feature){
+          return {
+              color:"yellow",
+              fillColor: "white",
+              fillOpacity:0
+          }
+      },      
+      onEachFeature: function(feature,layer){
+          layer.bindPopup("Plate Name: "+feature.properties.PlateName);
+      }
+  })
+});
+
 function createFeatures(earthquakeData) {
   
   var earthquakes = L.geoJSON(earthquakeData, {
@@ -56,17 +71,6 @@ function createFeatures(earthquakeData) {
   createMap(earthquakes);
 }
 
-d3.json(queryUrl2).then(function(response){
-  plates = L.geoJSON(response,{  
-      style: function(feature){
-          return {
-              color:"yellow",
-              fillColor: "white",
-              fillOpacity:0
-          }
-      },      
-  })
-});
 
 function createMap(earthquakes) {
 
